@@ -100,9 +100,8 @@ def make_AOV(year, month, day):
         unit_price = {} 
         for store_id in num_customer:
             if num_customer[store_id] != 0:
-                aov = total_sales[store_id] / num_customer[store_id]
-                aov_rounded = round(aov, 2)
-                unit_price[store_id] = aov_rounded # 가게별 계산된 객단가 값 저장 
+                aov = int(total_sales[store_id] / num_customer[store_id])
+                unit_price[store_id] = aov # 가게별 계산된 객단가 값 저장 
             else:
                 unit_price[store_id] = 0
     except ZeroDivisionError:
