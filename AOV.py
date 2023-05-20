@@ -141,3 +141,4 @@ def AOV(start_date, end_date): # start_date <= current_date <= enddate
 #start_date = date(2022, 5, 16)
 #end_date = date(2022, 5, 30)
 #result = AOV(start_date, end_date)
+#print(result)

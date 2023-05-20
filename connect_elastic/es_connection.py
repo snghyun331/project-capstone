@@ -1,6 +1,7 @@
 from elasticsearch import Elasticsearch, helpers
 import pymysql.cursors
 from dateutil import parser
+import datetime
 
 es = Elasticsearch(
     hosts='https://118.67.134.52:9200',
@@ -10,6 +11,7 @@ es = Elasticsearch(
 )
 
 es.ping()
+
 
 connection = pymysql.connect(
     host = 'localhost',
@@ -21,20 +23,28 @@ connection = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor
 )
 
-try : 
-    with connection.cursor() as cursor:
-        sql = "SELECT  * FROM platform_sales"
+def format_date(year, month, day, hour, minute, second):
 
-        cursor.execute(sql)
+    return parser.parse(f"{year}-{month}-{day}T{hour}:{minute}:{second}+00:00")
 
-        #send buffer
-        data_row = []
+
+
+def insert_sale(start_date, end_date):
+    try : 
+        with connection.cursor() as cursor:
+            sql = f"SELECT  * FROM platform_sales WHERE sold_at >= {start_date} and sold_at <= {end_date} "
+            sql = "SELECT  * FROM platform_sales"
+
+            cursor.execute(sql)
+
+            #send buffer
+            data_row = []
         
-        # when data count 100, send to elastic
-        for row in cursor : 
-            data = {
-                "_index" : "platform_sales",
-                "_source" : {
+            # when data count 100, send to elastic
+            for row in cursor : 
+                data = {
+                    "_index" : "platform_sales",
+                    "_source" : {
                     "id": row["id"],
                     "created": parser.parse(row["created"]).isoformat(),
                     "modified": parser.parse(row["modified"]).isoformat(),
@@ -58,8 +68,8 @@ try :
                     "extra_payment_id": row["extra_payment_id"],
                     "detail_status": row["detail_status"],
                     "processing_status": row["processing_status"]
+                    }
                 }
-            }
 
             data_row.append(data)
 
@@ -74,7 +84,14 @@ try :
         if data_row : 
             helpers.bulk(es, data_row)
 
-finally : 
-    connection.close()
+    finally :
+        connection.close()
+
+
+###### normal date dates ######
+#start = format_date(2021, 9, 15, 0, 0, 0)
+#end = format_date(2022, 5, 31, 23, 59, 59)
+
+#insert_sale(start, end)
 
 print("test success")

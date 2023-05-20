@@ -4,8 +4,10 @@ from flask import Flask, jsonify, request
 from datetime import datetime
 from dateutil import parser
 
-es = Elasticsearch("https://118.67.134.52:9200",http_auth=("elastic", "elastic"),verify_certs= False,
-    http_compress= False)
+es = Elasticsearch("https://118.67.134.52:9200",
+                   http_auth=("elastic", "elastic"),
+                   verify_certs= False,
+                   http_compress= False)
 
 app = Flask(__name__)
 
