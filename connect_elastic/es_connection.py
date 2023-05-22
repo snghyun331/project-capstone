@@ -88,7 +88,7 @@ def insert_sale(start_date, end_date):
         connection.close()
 
 
-###### normal date dates ######
+###### existing date dates ######
 #start = format_date(2021, 9, 15, 0, 0, 0)
 #end = format_date(2022, 5, 31, 23, 59, 59)
 

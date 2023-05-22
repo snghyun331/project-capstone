@@ -1,16 +1,14 @@
 from elasticsearch import Elasticsearch, helpers
 from datetime import date, timedelta
+from dateutil import parser
 import pandas as pd
 
 import AOV as aov
 
 
-#at end of day this program will be executed
-def set_yesterday():
-    today = date.today()
-    yesterday = today - timedelta(days=1)
+def set_date(year, month, day):
+    return parser.parse(f"{year}-{month}-{day}T00:00:00+00:00")
 
-    return yesterday
 
 def insert_aov(aov_df):
     es = Elasticsearch(
@@ -53,9 +51,9 @@ def insert_aov(aov_df):
 #main start
 #when first setting, existing date insert
 
-#day = set_yesterday()
+#day = set_date(2021, 9, 15)
 #aov_df = aov.AOV(day, day)
-
+#insert_aov(aov_df)
 
 
 print("test success")
