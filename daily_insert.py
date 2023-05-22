@@ -1,16 +1,10 @@
 from elasticsearch import Elasticsearch, helpers
-from datetime import date, timedelta
 import pandas as pd
 
 import AOV as aov
+import get_date as GetDate
 
 
-#at end of day this program will be executed
-def set_yesterday():
-    today = date.today()
-    yesterday = today - timedelta(days=1)
-
-    return yesterday
 
 def insert_aov(aov_df):
     es = Elasticsearch(

@@ -1,14 +1,8 @@
 from elasticsearch import Elasticsearch, helpers
-from datetime import date, timedelta
-from dateutil import parser
 import pandas as pd
 
 import AOV as aov
-
-
-def set_date(year, month, day):
-    return parser.parse(f"{year}-{month}-{day}T00:00:00+00:00")
-
+import get_date as GetDate
 
 def insert_aov(aov_df):
     es = Elasticsearch(
@@ -45,15 +39,36 @@ def insert_aov(aov_df):
     if data_row : 
         helpers.bulk(es, data_row)
 
+    return 0
+
 
 
 
 #main start
 #when first setting, existing date insert
 
+
 #day = set_date(2021, 9, 15)
 #aov_df = aov.AOV(day, day)
 #insert_aov(aov_df)
 
+
+
+def do_aov_insert():
+    sold_days = GetDate.get_all_date()
+
+    for sold_day in sold_days:
+        day_time = GetDate.parse_str_to_date(sold_day)
+        aov_df = aov.AOV(day_time, day_time)
+        ret = insert_aov(aov_df)
+
+        if (ret == 0) : print(f"{sold_day} insert success")
+
+# sold_days = GetDate.get_all_date()
+# for sold_day in sold_days:
+#     time = GetDate.parse_str_to_date(sold_day)
+#     print(f"{type(time)} type .... time : {time}")
+
+do_aov_insert()
 
 print("test success")

@@ -1,6 +1,20 @@
 from elasticsearch import Elasticsearch
 import warnings
+from datetime import datetime, date, timedelta
+from dateutil import parser
+
 warnings.filterwarnings('ignore')
+
+def set_date(year, month, day):
+    return parser.parse(f"{year}-{month}-{day}T00:00:00+00:00")
+
+
+#at end of day this program will be executed
+def set_yesterday():
+    today = date.today()
+    yesterday = today - timedelta(days=1)
+
+    return yesterday
 
 def get_all_date():
     
@@ -26,5 +40,13 @@ def get_all_date():
     return no_duplicate
 
 
+def parse_str_to_date(str_date):
+    try:
+        ret_date = datetime.strptime(str_date, '%Y-%m-%d')
+        return ret_date
+    except ValueError as ve:
+        print(f"Value Error : {ve}")
 
+    return set_date(1950, 12, 31)
+    
 
