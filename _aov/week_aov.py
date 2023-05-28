@@ -3,7 +3,7 @@ from dateutil import parser
 import datetime
     
 # 조회하는 데이터의 날짜의 1주일치 데이터 가져와서 객단가 평균 구하기 
-def make_week_AOV(date, store_id):
+def Week_AOV(date, store_id):
     
     year = date.year
     month = date.month
@@ -54,6 +54,7 @@ def make_week_AOV(date, store_id):
         "end_date": datetime.date(year, month, day - 1),
         "week_unit_price": week_aov
     }   
-
+    
+    # 인덱스에 저장
     es.index(index="platform_sales_week_per_price", doc_type="_doc", body=data)
     print("done")
