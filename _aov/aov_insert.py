@@ -1,8 +1,8 @@
 from elasticsearch import Elasticsearch, helpers
 import pandas as pd
 
-import AOV as aov
-import get_date as GetDate
+import _aov.AOV as aov
+import search.get_date as GetDate
 
 def insert_aov(aov_df):
     es = Elasticsearch(

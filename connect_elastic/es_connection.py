@@ -94,4 +94,4 @@ def insert_sale(start_date, end_date):
 
 #insert_sale(start, end)
 
-print("test success")
+print("insert end")
