@@ -3,7 +3,7 @@ import pymysql.cursors
 from dateutil import parser
 import datetime
 
-import connect_elastic.es_connection as es_con
+import es_connection as es_con
 
 
 es = Elasticsearch(

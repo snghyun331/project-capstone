@@ -3,6 +3,8 @@ import pymysql.cursors
 from dateutil import parser
 import datetime
 
+import _aov.aov_compare as cmp
+
 es = Elasticsearch(
     hosts='https://118.67.134.52:9200',
     http_auth=("elastic", "elastic"),   
@@ -39,7 +41,8 @@ def insert_sale(start_date, end_date):
 
             #send buffer
             data_row = []
-        
+            fraud_data = []
+
             # when data count 100, send to elastic
             for row in cursor : 
                 data = {
@@ -70,9 +73,14 @@ def insert_sale(start_date, end_date):
                     "processing_status": row["processing_status"]
                     }
                 }
-
+            #append sale data
             data_row.append(data)
 
+            #check aov and append sale data
+            if cmp.compare(row["amount_sale"]):
+                fraud_data.append(data)
+
+            #send sale data to server
             if len(data_row) >= 100 : 
                 try:
                     helpers.bulk(es, data_row)
@@ -81,8 +89,20 @@ def insert_sale(start_date, end_date):
                         print(error)
                 data_row = []
 
+            #send fraud data to server
+            if len(fraud_data) >= 100 : 
+                try:
+                    helpers.bulk(es, fraud_data)
+                except helpers.BulkIndexError as e:
+                    for error in e.errors:
+                        print(error)
+                fraud_data = []
+
+        #send rest data
         if data_row : 
             helpers.bulk(es, data_row)
+        if fraud_data : 
+            helpers.bulk(es, fraud_data)
 
     finally :
         connection.close()

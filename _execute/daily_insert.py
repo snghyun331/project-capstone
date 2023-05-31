@@ -41,6 +41,8 @@ def insert_aov(aov_df):
     if data_row : 
         helpers.bulk(es, data_row)
 
+    print("daily insert success")
+
 
 
 
@@ -49,7 +51,6 @@ def insert_aov(aov_df):
 
 #day = set_yesterday()
 #aov_df = aov.AOV(day, day)
+#insert_aov(aov_df)
 
-
-
-print("test success")
+print("daily insert end")
