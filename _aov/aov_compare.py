@@ -15,7 +15,7 @@ def compare(unit_price):
     docs = res_hits['_source']
     week_unit_price = docs["week_unit_price"]
     
-    if week_unit_price < unit_price:   # 일주일 객단가 > insert 데이터 객단가 이면 true 반환
+    if week_unit_price * 2 < unit_price:   # 일주일 객단가 > insert 데이터 객단가 이면 true 반환
         return True
     else:
         return False
