@@ -15,7 +15,7 @@ def make_AOV(year, month, day):
     )
     
     # ------------------------- 일일 결제 내역 확인 -------------------------
-    index = 'platform_sales' 
+    index = 'platform_sales'
     body = {
             "size": 10000,
             "query":
@@ -31,7 +31,7 @@ def make_AOV(year, month, day):
     
     res = es.search(index = index, body = body)
     
-    # ------------------------ 일일 결제된 store_id 조회  -------------------------------
+    # ------------------------ 가게 -------------------------------
     temp = []
     store_id = []
     
@@ -46,32 +46,22 @@ def make_AOV(year, month, day):
         if value not in store_id:
             store_id.append(value) # 해당 날짜의 결제한 가게들의 store_id가 저장됨
     
-    # ------------------------- 일일 가게별 고객수 ---------------------------        
+    # ------------------------- 가게별 고객수 ---------------------------        
 
     
     temp = []
-    info = []
-    
-   
-    for store in store_id:
-        # 중복이 포함된 [store_id, card_number] 저장 
+
+    # 중복이 포함된 [store_id, card_number] 저장 
+    for store in store_id: # 가게별로 고객수 저장...
         for arr in res_hits:
             res_source = dict(arr)
             if store == res_source["_source"]["store_id"]:
                 temp.append([store, res_source["_source"]["card_number"]])
-
-        # 중복 제거 후 info에 저장 
-        for value in temp:     
-            if value not in info:
-                info.append(value)
-            temp = []
     
-
-    # store_id가 같은 데이터끼리 모아서 게가게별 인원 수 확인 
     grouped = {}
     num_customer = {}
     
-    for item in info:
+    for item in temp:
         key = item[0]
         if key in grouped:
             grouped[key].append(item)
@@ -79,7 +69,7 @@ def make_AOV(year, month, day):
             grouped[key] = [item]
     
     for key, values in grouped.items():
-        num_customer[key] = len(values) # num_customer에 가게별 고객 수 저장 
+        num_customer[key] = len(values)
           
     # --------------------- 가게별 일일 총 결제 금액 -----------------------------
     amount_sale = []
@@ -107,22 +97,20 @@ def make_AOV(year, month, day):
     except ZeroDivisionError:
         print("해당 날짜에 결제한 고객이 존재하지 않습니다.")
        
-    # dataframe형태로 저장  
     data = {
         "store_id": list(num_customer.keys()),
         "total_sale": list(total_sales.values()),
         "num_customer": list(num_customer.values()),
         "unit_price": list(unit_price.values())
-    }  
+    }   
+    
     df = pd.DataFrame(data)
     df["date"] = date(year, month, day)
     
     return df
 
-# 객단가 계산 프로그램을 범위를 지어 실행 
-def AOV(start_date, end_date): # start_date <= current_date <= enddate
+def AOV(start_date, end_date):
     current_date = start_date
-    # 값을 저장할 dataframe
     result_df = pd.DataFrame(columns = ["store_id", "total_sale", "num_customer", "unit_price"])
     
     while current_date <= end_date:
@@ -138,7 +126,6 @@ def AOV(start_date, end_date): # start_date <= current_date <= enddate
 
     return result_df
     
-#start_date = date(2022, 5, 16)
-#end_date = date(2022, 5, 30)
-#result = AOV(start_date, end_date)
-#print(result)
+start_date = date(2022, 5, 2)
+end_date = date(2022, 5, 2)
+result = AOV(start_date, end_date)
