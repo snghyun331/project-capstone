@@ -32,7 +32,7 @@ def make_week_AOV(date, store_id):
                     }
            }
     
-    unit_price = [] # 객단가의 집합
+    total_sale = [] # 일일total_sale의 집합
     
     res = es.search(index = index, body = body)
     res_hits = res["hits"]["hits"]
@@ -40,10 +40,22 @@ def make_week_AOV(date, store_id):
         res_source = dict(arr)
         res_store_id = res_source["_source"]["store_id"]
         if res_store_id == store_id: # 해당 id와 store_id가 같은 객단가의 값만 가져옴
-            res_unit_price = res_source["_source"]["unit_price"]
-            unit_price.append(res_unit_price)
+            res_unit_price = res_source["_source"]["total_sale"]
+            total_sale.append(res_unit_price)
             
-    week_aov = int(sum(unit_price) / len(unit_price))
+    
+    num_customer = [] # 일일num_customer의 집합
+    
+    res = es.search(index = index, body = body)
+    res_hits = res["hits"]["hits"]
+    for arr in res_hits:
+        res_source = dict(arr)
+        res_store_id = res_source["_source"]["store_id"]
+        if res_store_id == store_id: # 해당 id와 store_id가 같은 객단가의 값만 가져옴
+            res_unit_price = res_source["_source"]["num_customer"]
+            num_customer.append(res_unit_price)
+    
+    week_aov = int(sum(total_sale) / sum(num_customer))
     
     # insert한 데이터 날짜 기준 
     # start_date = date(year, month, day - 7)
