@@ -49,19 +49,18 @@ def make_AOV(year, month, day):
     # ------------------------- 가게별 고객수 ---------------------------        
 
     
-    temp = []
+    info = []
 
-    # 중복이 포함된 [store_id, card_number] 저장 
     for store in store_id: # 가게별로 고객수 저장...
         for arr in res_hits:
             res_source = dict(arr)
             if store == res_source["_source"]["store_id"]:
-                temp.append([store, res_source["_source"]["card_number"]])
+                info.append([store, res_source["_source"]["card_number"]])
     
     grouped = {}
     num_customer = {}
     
-    for item in temp:
+    for item in info:
         key = item[0]
         if key in grouped:
             grouped[key].append(item)
