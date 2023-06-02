@@ -77,7 +77,7 @@ def insert_sale(start_date, end_date):
             data_row.append(data)
 
             #check aov and append sale data
-            if cmp.compare(row["amount_sale"]):
+            if cmp.compare(row["amount_sale"], row["store_id"], row["sold_at"]):
                 fraud_data.append(data)
 
             #send sale data to server

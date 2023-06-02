@@ -45,12 +45,24 @@ def insert_aov(aov_df):
 
 
 
-
+### at server ###
 #main start
 #when first setting, existing date insert
+###
+#days = GetDate.get_all_date()
+#for day in days:
+#    aov_df = aov.AOV(day, day)
+#    insert_aov(aov_df)
 
-#day = set_yesterday()
+
+
+###
+# every day 00:00:00 clock execute this program
+###
+#day = GetDate.set_yesterday()
 #aov_df = aov.AOV(day, day)
 #insert_aov(aov_df)
+
+
 
 print("daily insert end")

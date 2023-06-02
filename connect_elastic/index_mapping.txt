@@ -77,3 +77,144 @@ PUT /platform_sales
         }
     }
 }
+
+
+
+
+
+
+
+
+#create index platform_sales_per_price
+PUT /platform_sales_per_price
+{
+    "settings" : {
+        "number_of_replicas" : 1
+    },
+    "mappings" : {
+        "properties": {
+            "store_id" : {
+                "type" : "keyword"
+            }, 
+            "total_sale" : {
+                "type" : "long"
+            }, 
+            "num_customer" : {
+                "type" : "integer"
+            }, 
+            "unit_price" : {
+                "type" : "integer"
+            }, 
+            "date" : {
+                "type" : "date"
+            } 
+        }
+    }
+}
+
+
+GET /platform_sales/_search
+{
+  "size": 10,
+  "query": {
+    "match": {
+      "platform": "KCP"
+    }
+  }
+}
+
+GET /platform_sales_per_price/_search
+{
+  "size": 10,
+  "query": {
+    "match": {
+      "date": "2022-05-28"
+    }
+  }
+}
+
+
+#create fraud sales index
+PUT /platform_fraud_sales 
+{
+    "settings" : {
+        "number_of_replicas" : 1
+    },
+    "mappings" : {
+        "properties": {
+            "id" : {
+                "type" : "keyword"
+            },
+            "created" : {
+                "type" : "date"
+            },
+            "modified" : {
+                "type" : "date"
+            },
+            "remark" : {
+                "type" : "text"
+            },
+            "num_approval" : {
+                "type" : "text"
+            },
+            "card_company" : {
+                "type" : "text"
+            },
+            "card_category" : {
+                "type" : "keyword"
+            },
+            "card_number" : {
+                "type" : "text"
+            },
+            "amount_sale" : {
+                "type" : "integer"
+            },
+            "amount_fee" : {
+                "type" : "integer"
+            },
+            "amount_deposit" : {
+                "type" : "integer"
+            },
+            "is_canceled" : {
+                "type" : "boolean"
+            },
+            "sold_at" : {
+                "type" : "date"
+            },
+            "will_deposited_at" : {
+                "type" : "date"
+            },
+            "raw_data" : {
+                "type" : "text"
+            },
+            "paltform" : {
+                "type" : "keyword"
+            },
+            "daily_sale_id" : {
+                "type" : "keyword"
+            },
+            "store_id" : {
+                "type" : "keyword"
+            },
+            "result_code" : {
+                "type" : "text"
+            },
+            "result_msg" : {
+                "type" : "text"
+            },
+            "extra_payment_id" : {
+                "type" : "keyword"
+            },
+            "detail_status" : {
+                "type" : "keyword"
+            },
+            "processing_status" : {
+                "type" : "text"
+            }
+        }
+    }
+}
+
+
+
+

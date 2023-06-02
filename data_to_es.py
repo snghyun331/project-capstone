@@ -51,8 +51,8 @@ def insert_sales_cycle():
     print(start)
     print(end)
 
-#   insert_sale(start, end)
+    es_con.insert_sale(start, end)
 
-insert_sales_cycle()
+#insert_sales_cycle()
 
 print("insert end")
