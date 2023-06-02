@@ -217,4 +217,28 @@ PUT /platform_fraud_sales
 
 
 
+PUT /platform_sales_week_per_price
+{
+    "settings" : {
+        "number_of_replicas" : 1
+    },
+    "mappings" : {
+        "properties": {
+            "store_id" : {
+                "type" : "keyword"
+            }, 
+            "week_unit_price" : {
+                "type" : "integer"
+            }, 
+            "start_date" : {
+                "type" : "date"
+            },
+            "end_date" : {
+                "type" : "date"
+            }
+        }
+    }
+}
+
+
 
