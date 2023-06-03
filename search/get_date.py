@@ -2,8 +2,11 @@ from elasticsearch import Elasticsearch
 import warnings
 from datetime import datetime, date, timedelta
 from dateutil import parser
-
 warnings.filterwarnings('ignore')
+# import os
+# import sys 
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+import elatic.conn as conn
 
 def set_date(year, month, day):
     return parser.parse(f"{year}-{month}-{day}T00:00:00+00:00")
@@ -18,8 +21,7 @@ def set_yesterday():
 
 def get_all_date():
     
-    es = Elasticsearch("https://118.67.134.52:9200",http_auth=("elastic", "elastic"),verify_certs= False,
-        http_compress= False)
+    es = conn.Conn()
 
     res = es.search(index = 'platform_sales',scroll = '1m', size = 10000, body={"query": {"match_all": {}}})
     res_hits = res['hits']['hits']

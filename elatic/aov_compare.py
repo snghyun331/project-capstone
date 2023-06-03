@@ -1,6 +1,7 @@
 from datetime import datetime
 from dateutil import parser
 from elasticsearch import Elasticsearch
+
 import conn
 
 def compare(amount_sale,store_id, start_date, end_date):

@@ -2,9 +2,9 @@ from elasticsearch import Elasticsearch
 from dateutil import parser
 import datetime
 import pandas as pd
-import os
-import sys 
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+# import os
+# import sys 
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import elatic.conn as conn
 
 # 조회하는 데이터의 날짜의 1주일치 데이터 가져와서 객단가 평균 구하기 
@@ -23,13 +23,13 @@ def make_week_AOV(date, store_id):
             "query":
                     {"range":
                         {"date": 
-                             {
-                                 "gte":parser.parse(f"{year}-{month}-{day - 7}"),
-                                 "lte":parser.parse(f"{year}-{month}-{day - 1}")
-                             }
+                            {
+                            "gte":parser.parse(f"{year}-{month}-{day - 7}"),
+                            "lte":parser.parse(f"{year}-{month}-{day - 1}")
+                            }
                         }
                     }
-           }
+        }
     
     total_sale = [] # 일일total_sale의 집합
     

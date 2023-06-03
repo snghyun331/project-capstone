@@ -5,7 +5,9 @@ from elasticsearch import Elasticsearch
 from dateutil import parser
 import pandas as pd
 from datetime import date, timedelta
-
+# import os
+# import sys 
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import elatic.conn as conn
 
 
@@ -19,13 +21,13 @@ def make_AOV(year, month, day):
             "query":
                     {"range":
                         {"sold_at": 
-                             {
-                                 "gte":parser.parse(f"{year}-{month}-{day}T00:00:00+00:00"), 
-                                 "lte":parser.parse(f"{year}-{month}-{day}T23:59:59+00:00")
-                             }
+                            {
+                            "gte":parser.parse(f"{year}-{month}-{day}T00:00:00+00:00"), 
+                            "lte":parser.parse(f"{year}-{month}-{day}T23:59:59+00:00")
+                            }
                         }
                     }
-           }
+        }
     
     res = es.search(index = index, body = body)
     
@@ -67,7 +69,7 @@ def make_AOV(year, month, day):
     
     for key, values in grouped.items():
         num_customer[key] = len(values)
-          
+
     # --------------------- 가게별 일일 총 결제 금액 -----------------------------
     amount_sale = []
     total_sales = {}
@@ -93,7 +95,7 @@ def make_AOV(year, month, day):
                 unit_price[store_id] = 0
     except ZeroDivisionError:
         print("해당 날짜에 결제한 고객이 존재하지 않습니다.")
-       
+        
     data = {
         "store_id": list(num_customer.keys()),
         "total_sale": list(total_sales.values()),
