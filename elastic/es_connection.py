@@ -3,7 +3,7 @@ import pymysql.cursors
 from dateutil import parser
 import datetime
 
-import elatic.conn as conn
+import elastic.conn as conn
 
 import aov_compare as cmp
 
@@ -21,10 +21,6 @@ connection = pymysql.connect(
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor
 )
-
-def format_date(year, month, day, hour, minute, second):
-
-    return parser.parse(f"{year}-{month}-{day}T{hour}:{minute}:{second}+00:00")
 
 
 

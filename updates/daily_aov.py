@@ -8,7 +8,7 @@ from datetime import date, timedelta
 # import os
 # import sys 
 # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-import elatic.conn as conn
+import elastic.conn as conn
 
 
 def make_AOV(year, month, day):

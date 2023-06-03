@@ -7,7 +7,7 @@ import datetime
 
 import es_connection as es_con
 
-import elatic.conn as conn
+import elastic.conn as conn
 
 es = conn.Conn()
 

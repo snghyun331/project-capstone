@@ -6,7 +6,12 @@ warnings.filterwarnings('ignore')
 # import os
 # import sys 
 # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-import elatic.conn as conn
+import elastic.conn as conn
+
+def format_date(year, month, day, hour, minute, second):
+
+    return parser.parse(f"{year}-{month}-{day}T{hour}:{minute}:{second}+00:00")
+
 
 def set_date(year, month, day):
     return parser.parse(f"{year}-{month}-{day}T00:00:00+00:00")
@@ -18,6 +23,15 @@ def set_yesterday():
     yesterday = today - timedelta(days=1)
 
     return yesterday
+
+#at execute (put_sales.py) 
+#required between that time and before 6 hour
+def get_cycle_term():
+    now = date.now()
+    before_6 = now - timedelta(hours=6)
+
+    term = (before_6, now)
+    return term
 
 def get_all_date():
     
