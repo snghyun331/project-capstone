@@ -1,23 +1,25 @@
-from elasticsearch import Elasticsearch
-from elasticsearch import helpers
 from flask import Flask, jsonify, request
-from datetime import datetime
+from elasticsearch import helpers
 from dateutil import parser
+from datetime import datetime
+import warnings
+warnings.filterwarnings('ignore')
+import os
+import sys 
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+import elatic.conn as conn
 
-es = Elasticsearch("https://118.67.134.52:9200",
-                   http_auth=("elastic", "elastic"),
-                   verify_certs= False,
-                   http_compress= False)
 
 app = Flask(__name__)
 
-@app.route('/')
 
-@app.route('/home')
+@app.route('/')
 def home():
     return "엘라스틱 서치를 플라스크로 성능 향상 시키기"
 
-@app.route('/search', methods = ['GET'])
+
+# request parameter에서 start_date, end_date 값을 받아서 해당 범위의 객단가 정보 가져오기
+@app.route('/search-unitprice', methods = ['GET'])
 def search():
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
@@ -30,7 +32,7 @@ def search():
     end_month = end_date[4:6]
     end_day = end_date[6:]
     
-    
+    es = conn.Conn()
     index = "platform_sales_per_price"
     body = {"query":
                 {"range":
@@ -75,6 +77,32 @@ def search():
 #                 {'store_id':12, 'date': 2020-01-01...},
 #                 {'store_id':13, 'date': 2020..}  
 #             ]
+
+
+
+# 일주일 평균 객단가를 가져오기
+@app.route('/search-weekaov')
+def Week_AOV(): 
+    es = conn.Conn()
     
+    index = 'platform_sales_week_per_price' 
+    body = {"query": {"match_all": {}}}
+    res = es.search(index = index, body = body, size = 10000)
+    res_hits = res["hits"]["hits"]
+    docs = res_hits['_source']
+    store_id = docs['store_id']
+    start_date = docs['start_date']
+    end_date = docs['end_date']
+    week_unit_price = docs['week_unit_price']
+        
+    return  f"""
+    <h4>store_id: {store_id}</h4>
+    <h4>start_date: {start_date}</h4>
+    <h4>end_date: {end_date}</h4>
+    <h4>week_unit_price: {week_unit_price}</h4>
+    """
+
+
 if __name__ == '__main__':
     app.run(debug=False)
+    

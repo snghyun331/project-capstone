@@ -1,3 +1,5 @@
+# data to es
+
 from elasticsearch import Elasticsearch, helpers
 import pymysql.cursors
 from dateutil import parser
@@ -5,13 +7,9 @@ import datetime
 
 import es_connection as es_con
 
+import elatic.conn as conn
 
-es = Elasticsearch(
-    hosts='https://118.67.134.52:9200',
-    http_auth=("elastic", "elastic"),   
-    verify_certs= False,
-    http_compress= False
-)
+es = conn.Conn()
 
 es.ping()
 

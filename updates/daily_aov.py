@@ -6,13 +6,11 @@ from dateutil import parser
 import pandas as pd
 from datetime import date, timedelta
 
+import elatic.conn as conn
+
+
 def make_AOV(year, month, day):
-    es = Elasticsearch(
-    hosts='https://118.67.134.52:9200',
-    http_auth=("elastic", "elastic"),   
-    verify_certs= False,
-    http_compress= False
-    )
+    es = conn.Conn()
     
     # ------------------------- 일일 결제 내역 확인 -------------------------
     index = 'platform_sales'

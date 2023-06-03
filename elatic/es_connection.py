@@ -3,14 +3,11 @@ import pymysql.cursors
 from dateutil import parser
 import datetime
 
-import _aov.aov_compare as cmp
+import elatic.conn as conn
 
-es = Elasticsearch(
-    hosts='https://118.67.134.52:9200',
-    http_auth=("elastic", "elastic"),   
-    verify_certs= False,
-    http_compress= False
-)
+import aov_compare as cmp
+
+es = conn.Conn()
 
 es.ping()
 

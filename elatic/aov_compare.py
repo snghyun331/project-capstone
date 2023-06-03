@@ -1,6 +1,7 @@
 from datetime import datetime
 from dateutil import parser
 from elasticsearch import Elasticsearch
+import conn
 
 def compare(amount_sale,store_id, start_date, end_date):
     start_year = start_date[:4]
@@ -10,12 +11,7 @@ def compare(amount_sale,store_id, start_date, end_date):
     end_month = end_date[4:6]
     end_day = end_date[6:]
     
-    es = Elasticsearch(
-            hosts='https://118.67.134.52:9200',
-            http_auth=("elastic", "elastic"),   
-            verify_certs= False,
-            http_compress= False
-        )
+    es = conn.Conn()
     
     index = 'platform_sales_week_per_price' 
     body = {

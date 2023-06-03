@@ -1,7 +1,8 @@
 from elasticsearch import Elasticsearch, helpers
 import pandas as pd
 
-import _aov.AOV as aov
+import updates.daily_aov as aov
+
 import search.get_date as GetDate
 
 def insert_aov(aov_df):
