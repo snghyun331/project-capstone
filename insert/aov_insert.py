@@ -1,8 +1,9 @@
 from elasticsearch import Elasticsearch, helpers
 import pandas as pd
-
+# import os
+# import sys 
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import updates.daily_aov as aov
-
 import search.get_date as GetDate
 
 def insert_aov(aov_df):

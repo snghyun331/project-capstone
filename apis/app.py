@@ -4,9 +4,9 @@ from dateutil import parser
 from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
-import os
-import sys 
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+# import os
+# import sys 
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import elatic.conn as conn
 
 
@@ -37,13 +37,13 @@ def search():
     body = {"query":
                 {"range":
                     {"sold_at": 
-                         {
-                             "gt":parser.parse(f"{start_year}-{start_month}-{start_day}T00:00:00+00:00"), 
-                             "lt":parser.parse(f"{end_year}-{end_month}-{end_day}T23:59:59+00:00")
-                         }
+                        {
+                        "gt":parser.parse(f"{start_year}-{start_month}-{start_day}T00:00:00+00:00"), 
+                        "lt":parser.parse(f"{end_year}-{end_month}-{end_day}T23:59:59+00:00")
+                        }
                     }
                 }
-           }
+        }
     
     res = es.search(index = index, scroll = '1m', size = 10000, body = body)
     res_hits = res["hits"]["hits"]
