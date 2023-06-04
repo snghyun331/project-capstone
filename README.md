@@ -30,7 +30,7 @@
 1. 기능 : 일일 객단가 계산
 2. 함수 : make_AOV(year, month, day), AOV(start_date, end_date)
 3. 전개 : 
-  make_AOV() 함수
+  + make_AOV() 함수
   * 해당 날짜에 존재하는 'platform_sales'의 데이터를 가져와 일일 객단가를 구하기 위한 함수
   * 객단가 = (가게의 총 결제 금액) / (가게의 손님의 수) 
   * 'platform_sales'에서 해당 날짜에 결제된(sold_at) 데이터를 모두 가져온다. 
