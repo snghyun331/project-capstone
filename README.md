@@ -2,27 +2,27 @@
 
 # [실행순서] 
 
-conn.py 
+### conn.py 
  - 기능 : elasticsearch의 연결
 
-aov_compare.py
+### aov_compare.py
  - 기능 : 데이터의 이상치 검사 
  - 함수 : compare(card_number, amount_sale, store_id, start_date, end_date)
  - 조건 : 주간 객단가의 2배보다 크면서, 데이터의 card_number가 같은 데이터가 amount_sale가 3번 이상 같은 경우 이상치로 간주.
 
-1. es.connection.py 
-  - 기능 : DB에서 ELK로 데이터를 이동
-  - 함수 : insert_sale(start_date, end_date)
-  - 전개 :
-        1) es = conn.Conn() : 'conn.py' 사용자 정의 모듈로 elasticsearch와 연결 
-        2) DB에 있는 데이터를 pymysql 라이브러리로 조회 후 'platform_sales' 인덱스의 mappings에 맞게 데이터 지정, data_row 리스트에 추가.
-        3) cmp.compare() : 'aov_compare.py' 사용자 정의 모듈로 이상치이면 fraud_data 리스트에도 추가.
-        4) 만약 data_row의 길이가 100 이상이면 데이터를 'platform_sales'인덱스에 추가하고 data_row는 초기화.
-        5) fraud_data의 길이가 100 이상이면 'platform_fraud_sales' 인덱스에 데이터 추가하고 fraud_data는 초기화.
-        6) DB에 있는 데이터를 platform_sales 인덱스에 추가 
-        7) DB에서 데이터를 모두 받아온 후 data_row와 fraud_data에 데이터가 존재한다면 각각의 인덱스에 추가.
+### es.connection.py 
+  1. 기능 : DB에서 ELK로 데이터를 이동
+  2. 함수 : insert_sale(start_date, end_date)
+  3. 전개 :
+ - es = conn.Conn() : 'conn.py' 사용자 정의 모듈로 elasticsearch와 연결 
+ - DB에 있는 데이터를 pymysql 라이브러리로 조회 후 'platform_sales' 인덱스의 mappings에 맞게 데이터 지정, data_row 리스트에 추가.
+ - cmp.compare() : 'aov_compare.py' 사용자 정의 모듈로 이상치이면 fraud_data 리스트에도 추가.
+ - 만약 data_row의 길이가 100 이상이면 데이터를 'platform_sales'인덱스에 추가하고 data_row는 초기화.
+ - fraud_data의 길이가 100 이상이면 'platform_fraud_sales' 인덱스에 데이터 추가하고 fraud_data는 초기화.
+ - DB에 있는 데이터를 platform_sales 인덱스에 추가 
+ - DB에서 데이터를 모두 받아온 후 data_row와 fraud_data에 데이터가 존재한다면 각각의 인덱스에 추가.
   
-2. daily_aov.py 
+### daily_aov.py 
   - 기능 : 일일 객단가 계산
   - 함수 : make_AOV(year, month, day), AOV(start_date, end_date)
   - 전개 : 
