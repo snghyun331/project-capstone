@@ -64,7 +64,7 @@ $ pip install -r freeze.txt
 ## 기능 설명 / 순서  
 
 기능 1. DB로부터 platform_sales 데이터를 Elasticsearch에 삽입 (초기 세팅, 외부)
-- Elasticsearch에 삽입되는 데이터에 대해서 이상거래 데이터확인 
+- Elasticsearch에 삽입되기 전, 데이터에 대해서 이상거래 데이터확인 
 
 기능 2. Elasticsearch에 저장된 데이터를 기반으로 구한 일일 객단가 계산, 삽입 (초기 세팅, 서버)
 
@@ -72,7 +72,7 @@ $ pip install -r freeze.txt
 - 기능1 과 기능4의 이상 데이터 확인을 위해 기능 수행
 
 기능 4. DB의 최신 데이터를 **6시간 주기**로 Elasticsearch에 삽입 (외부)
--Elasticsearch에 삽입되는 데이터에 대해서 이상거래 데이터확인 
+- Elasticsearch에 삽입되기 전, 데이터에 대해서 이상거래 데이터확인 
 
 기능 5. 최신화 데이터 일일 객단가를 **자정마다** 계산, 삽입 실행한다. (서버)
 
