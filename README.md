@@ -2,10 +2,10 @@
 
 # [실행순서] 
 
-## conn.py 
+conn.py 
  - 기능 : elasticsearch의 연결
 
-## aov_compare.py
+aov_compare.py
  - 기능 : 데이터의 이상치 검사 
  - 함수 : compare(card_number, amount_sale, store_id, start_date, end_date)
  - 조건 : 주간 객단가의 2배보다 크면서, 데이터의 card_number가 같은 데이터가 amount_sale가 3번 이상 같은 경우 이상치로 간주.
