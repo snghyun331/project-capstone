@@ -41,6 +41,7 @@
   * data 딕셔너리를 'platform_sales_per_price' 인덱스와 필드를 같게 만들어 store_id, total_sale, num_customer, unit_price값 저장.
   * data 딕셔너리를 DataFrame으로 만들고(df), 해당 날짜의 데이터를 넣는 'date' 필드 추가. 
   * 만든 df은 AOV에 리턴.
+  
  - AOV() 함수 
   * 일일 객단가를 구하고 싶은 시작 날짜(start_date)와 끝 날짜(end_date)를 인자로 한다.
   * current_date는 start_date에서 end_date까지의 날짜 데이터를 얻기 위한 변수
@@ -67,4 +68,41 @@
 2. 함수 : make_week_AOV(es, date, store_id), Week_AOV(es, start_date, end_date)
 3. 전개 : 
  - make_week_AOV() 함수
-  * 
+  * 해당 날짜로 부터 7일전까지의 객단가의 평균을 구하기 위한 함수 
+  * conn.py의 ELK 연결(es), 날짜(date), 가게(store_id)를 인자로 한다.  
+  * 주간 객단가의 평균을 구하기 위해 'platform_sales_per_price' 인덱스를 7일 전까지의 데이터를 가져온다. 
+  * store_id가 일치한 객단가 정보를 찾아 7일치의 총 amount_sale의 합(total_sale)과 num_customer의 합(num_customer)을 구한다.
+  * 'platform_sales_week_per_price' 인덱스에 저장하기 위해 필드가 일치하는 데이터 프레임(df) 생성
+  * total_sale과 num_customer을 이용하여 해당 날짜(date)에 해당 가게(store_id)의 주간 객단가(week_aov)를 구한다. 
+  * store_id, date, week_aov를 이용하여 df에 넣을 data 딕셔너리 생성. 
+  * 생성한 data 딕셔너리로 df에 행 추가. Week_AOV() 함수에 리턴
+  
+ - Week_AOV() 함수 
+  * make_week_AOV() 함수를 실행하기 위한 인자를 생성하는 함수,
+  * coon.py의 ELK 연결(es), 시작 날짜(start_date), 끝 날짜(end_date)를 인자로 한다. 하지만 start_date와 end_date는 같은 값으로 한다. 
+  * start_date와 end_date를 이용해서 'platform_sales_per_price' 인덱스에서 데이터를 가져온다. 이때 날짜별로 정렬하면서 가져온다. 
+  * 'platform_sales_week_per_price' 인덱스에 저장하기 위해 필드에 맞게 데이터 프레임(result_df)생성
+  * current_date는 start_date에서 end_date까지의 날짜 데이터를 얻기 위한 변수
+  * current_date에 존재하는 일일 객단가 데이터의 가게 코드를 가져와 중복을 제거하고 리스트로 저장한다.(store_id)
+  * store_id 리스트의 값을 es, current_date와 함께 make_week_AOV() 함수 실행하고 리턴받은 값을 df 변수에 저장 리턴받은 값 df를 result_df와 합친다. 그리고 이를 store_id 값 전부 실행한다. 
+  * 그리고 current_date의 날짜를 하루 추가해 store_id 리스트를 날짜에 맞는 값을 불러와 make_week_AOV() 함수를 실행하여 result_df와 합친다.
+  * 최종적으로 result_df는 start_date와 end_date사이에 있는 값들의 주간 객단가의 평균 정보를 저장하게 된다. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
