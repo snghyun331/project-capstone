@@ -31,20 +31,20 @@
     * 객단가 = (가게의 총 결제 금액) / (가게의 손님의 수) 
     * 'platform_sales'에서 해당 날짜에 결제된(sold_at) 데이터를 모두 가져온다. 
     * 가져온 데이터로 해당일에 결제된 각각의 가게(store_id)의 일일 객단가를 구하기 위해 store_id 리스트를 만들어 중복이 되지 않게 저장한다. 
-    - 해당일에 가게별로 결제한 손님의 수를 구하기 위해 가게(store_id)와 카드 번호(card_number)를 키:값으로 하여 store_id가 같은 값의 갯수를 구하여                         num_customer 딕셔너리에 store_id, len(고객수)를 키:값으로 저장.
-    - 가게의 총 결제 금액도 필요하므로, store_id와 가게별 amount_sale의 합계를 키:값으로 정해 total_sales 딕셔너리에 저장
-    - store_id, num_customer 딕셔너리, total_sales 딕셔너리를 이용하여 가게별 객단가(aov)를 구해 store_id와 aov를 키:값으로 unit_price 딕셔너리에 저장. 
-    - data 딕셔너리를 'platform_sales_per_price' 인덱스와 필드를 같게 만들어 store_id, total_sale, num_customer, unit_price값 저장.
-    - data 딕셔너리를 DataFrame으로 만들고(df), 해당 날짜의 데이터를 넣는 'date' 필드 추가. 
-    - 만든 df은 AOV에 리턴.
+    * 해당일에 가게별로 결제한 손님의 수를 구하기 위해 가게(store_id)와 카드 번호(card_number)를 키:값으로 하여 store_id가 같은 값의 갯수를 구하여                         num_customer 딕셔너리에 store_id, len(고객수)를 키:값으로 저장.
+    * 가게의 총 결제 금액도 필요하므로, store_id와 가게별 amount_sale의 합계를 키:값으로 정해 total_sales 딕셔너리에 저장
+    * store_id, num_customer 딕셔너리, total_sales 딕셔너리를 이용하여 가게별 객단가(aov)를 구해 store_id와 aov를 키:값으로 unit_price 딕셔너리에 저장. 
+    * data 딕셔너리를 'platform_sales_per_price' 인덱스와 필드를 같게 만들어 store_id, total_sale, num_customer, unit_price값 저장.
+    * data 딕셔너리를 DataFrame으로 만들고(df), 해당 날짜의 데이터를 넣는 'date' 필드 추가. 
+    * 만든 df은 AOV에 리턴.
  - AOV() 함수 
-    - 일일 객단가를 구하고 싶은 시작 날짜(start_date)와 끝 날짜(end_date)를 인자로 한다.
-    - current_date는 start_date에서 end_date까지의 날짜 데이터를 얻기 위한 변수
-    - 이후에 'platform_sales_per_price' 인덱스에 저장하기 편하게 하도록 result_df 데이터프레임을 만들어 둔다.
-    - current_date를 년, 월, 일로 나눠 make_AOV()함수의 인자로 사용, 리턴값은 df에 저장 
-    - make_AOV() 함수를 실행하고 리턴받은 값 df는 result_df와 합친다. 
-    - current_date를 하루 증가시켜 end_date가 될때까지 make_AOV() 실행하고 df는 result_df와 합친다. 
-    - 최종적으로 result_df는 start_date부터 end_date까지 일일 객단가를 구한 DataFrame이 된다. 
+    * 일일 객단가를 구하고 싶은 시작 날짜(start_date)와 끝 날짜(end_date)를 인자로 한다.
+    * current_date는 start_date에서 end_date까지의 날짜 데이터를 얻기 위한 변수
+    * 이후에 'platform_sales_per_price' 인덱스에 저장하기 편하게 하도록 result_df 데이터프레임을 만들어 둔다.
+    * current_date를 년, 월, 일로 나눠 make_AOV()함수의 인자로 사용, 리턴값은 df에 저장 
+    * make_AOV() 함수를 실행하고 리턴받은 값 df는 result_df와 합친다. 
+    * current_date를 하루 증가시켜 end_date가 될때까지 make_AOV() 실행하고 df는 result_df와 합친다. 
+    * 최종적으로 result_df는 start_date부터 end_date까지 일일 객단가를 구한 DataFrame이 된다. 
           
 3. initial_aov.py 
   - 기능 : daily_aov.py 에서 계산된 값을 ELK로 이동 
