@@ -18,6 +18,7 @@
 1. 기능 : DB에서 ELK로 데이터를 이동
 2. 함수 : insert_sale(start_date, end_date)
 3. 전개 :
+
  - es = conn.Conn() : 'conn.py' 사용자 정의 모듈로 elasticsearch와 연결 
  - DB에 있는 데이터를 pymysql 라이브러리로 조회 후 'platform_sales' 인덱스의 mappings에 맞게 데이터 지정, data_row 리스트에 추가.
  - cmp.compare() : 'aov_compare.py' 사용자 정의 모듈로 이상치이면 fraud_data 리스트에도 추가.
@@ -30,7 +31,8 @@
 1. 기능 : 일일 객단가 계산
 2. 함수 : make_AOV(year, month, day), AOV(start_date, end_date)
 3. 전개 : 
-  + make_AOV() 함수
+
+  make_AOV() 함수
   * 해당 날짜에 존재하는 'platform_sales'의 데이터를 가져와 일일 객단가를 구하기 위한 함수
   * 객단가 = (가게의 총 결제 금액) / (가게의 손님의 수) 
   * 'platform_sales'에서 해당 날짜에 결제된(sold_at) 데이터를 모두 가져온다. 
@@ -55,7 +57,8 @@
 1. 기능 : daily_aov.py 에서 계산된 값을 ELK로 이동 
 2. 함수 : insert_daily_aov(es, aov_df)
 3. 전개 : 
- - insert_daily_aov() 함수
+
+  insert_daily_aov() 함수
   *  conn.py의 클래스 선언(es)과 daily_aov.py의 리턴값인 result_df(aov_df)을 인자로 한다.
   *  인덱스 'platform_sales_per_price'에 데이터를 추가하기 위한 함수
   *  aov_df를 한행 씩 data_row 리스트에 추가한다. 
@@ -67,6 +70,7 @@
 1. 기능 : 주간 객단가 계산 
 2. 함수 : make_week_AOV(es, date, store_id), Week_AOV(es, start_date, end_date)
 3. 전개 : 
+
   make_week_AOV() 함수
   * 해당 날짜로 부터 7일전까지의 객단가의 평균을 구하기 위한 함수 
   * conn.py의 ELK 연결(es), 날짜(date), 가게(store_id)를 인자로 한다.  
