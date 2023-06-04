@@ -1,3 +1,82 @@
+# earlypay_capstone_project
+ELK + Flask 데이터 처리 시스템 구축 
+
+## 프로젝트 소개 
+platform_sales 데이터를 이용해서 만든 카드 내역 데이터 처리 시스템입니다. 
+
+## 개발 기간 
+- 23.03.06 - 23.06.19
+
+## 기술스택
+- Python 3.9.13
+- Elastic search 7.17.0
+- Kibana 7.17.0
+- Flask 2.3.2
+
+## 설치 방법 
+ 
+1. 저장소를 클론합니다.
+
+```
+$ git crone -b folder_cleaned https://github.com/snghyun331/project-capstone.git
+```
+
+2. 프로젝트의 디렉토리로 이동합니다. 
+
+```
+$ cd project-capstone
+```
+
+3. 가상환경을 만듭니다. 
+ 
+```
+$ python -m venv (가상환경 폴더명)
+```
+ 
+4. 가상환경을 활성화 합니다. 
+
+```
+$ .\(가상환경 폴더명)\Scripts\activate
+```
+
+4. 필요한 패키지를 설치합니다.
+
+```
+$ pip freeze > freeze.txt
+```
+
+또는
+
+```
+$ pip install -r freeze.txt
+```
+
+## 기능 설명 
+
+기능 1. Mysql로부터 데이터를 ELK로 가져
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
 # project-capstone
 
 # [실행순서] 
@@ -54,7 +133,7 @@
   * 최종적으로 result_df는 start_date부터 end_date까지 일일 객단가를 구한 DataFrame이 된다. 
           
 ### initial_aov.py 
-1. 기능 : daily_aov.py 에서 계산된 값을 ELK로 이동 
+1. 기능 : daily_aov.py 에서 계산된 일일 객단가 을 ELK로 이동 
 2. 함수 : insert_daily_aov(es, aov_df)
 3. 전개 : 
 
@@ -92,8 +171,13 @@
   * 그리고 current_date의 날짜를 하루 추가해 store_id 리스트를 날짜에 맞는 값을 불러와 make_week_AOV() 함수를 실행하여 result_df와 합친다.
   * 최종적으로 result_df는 start_date와 end_date사이에 있는 값들의 주간 객단가의 평균 정보를 저장하게 된다. 
 
+### initial_week_aov.py 
+1. 기능 : week_aov.py에서 계산된 주간 객단가 값을 ELK로 이동 
+2. 함수 : insert_weekly_aov(es, aov_df):
+3. 전개 : 
 
-
+  insert_weekly_aov()
+"""
 
 
 
