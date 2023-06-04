@@ -39,7 +39,7 @@ $ python -m venv (가상환경 폴더명)
 $ .\(가상환경 폴더명)\Scripts\activate
 ```
 
-4. 필요한 패키지를 설치합니다.
+5. 필요한 패키지를 설치합니다.
 
 ```
 $ pip freeze > freeze.txt
