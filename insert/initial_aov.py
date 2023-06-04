@@ -6,9 +6,9 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 import elastic.conn as conn
 import search.get_date as getdate
-import updates.daily_aov as aov
+import updates.daily_aov as daily_aov
 
-def insert_aov(es, aov_df):
+def insert_daily_aov(es, aov_df):
     data_row = []
 
     for row in aov_df.itertuples():
@@ -41,12 +41,13 @@ def insert_aov(es, aov_df):
 
 #start 
 
-es = conn.Conn()
+con = conn.Conn()
+es = con.es
 
 #in elasticseartch data, select all days
 days = getdate.get_all_date()
 
 #by all days, Calculate aov data and put into index (sales_per_prices)
 for day in days:
-    aov_df = aov.AOV(day, day)
-    insert_aov(es, aov_df)
+    aov_df = daily_aov.AOV(day, day)
+    insert_daily_aov(es, aov_df)

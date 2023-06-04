@@ -1,18 +1,12 @@
 # 데일리 객단가 구하기 
 # 공식 : 일일 총 매출액 / 일일 결제한 총 인원수 
 
-from elasticsearch import Elasticsearch 
 from dateutil import parser
 import pandas as pd
 from datetime import date, timedelta
-# import os
-# import sys 
-# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-import elastic.conn as conn
 
 
-def make_AOV(year, month, day):
-    es = conn.Conn()
+def make_AOV(es, year, month, day):
     
     # ------------------------- 일일 결제 내역 확인 -------------------------
     index = 'platform_sales'
@@ -108,7 +102,7 @@ def make_AOV(year, month, day):
     
     return df
 
-def AOV(start_date, end_date):
+def AOV(es, start_date, end_date):
     current_date = start_date
     result_df = pd.DataFrame(columns = ["store_id", "total_sale", "num_customer", "unit_price"])
     
@@ -118,13 +112,10 @@ def AOV(start_date, end_date):
         month = current_date.month
         day = current_date.day
         
-        df = make_AOV(year, month, day)
+        df = make_AOV(es, year, month, day)
         result_df = pd.concat([result_df, df])
         
         current_date += timedelta(days=1)
 
     return result_df
-    
-start_date = date(2022, 5, 2)
-end_date = date(2022, 5, 2)
-result = AOV(start_date, end_date)
+

@@ -1,17 +1,9 @@
-from elasticsearch import Elasticsearch 
 from dateutil import parser
 from datetime import timedelta, date
 import pandas as pd
-# import os
-# import sys 
-# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-# import elastic.conn as conn
-
-import conn
 
 # 조회하는 데이터의 날짜의 1주일치 데이터 가져와서 객단가 평균 구하기 
-def make_week_AOV(date, store_id):
-    es = conn.Conn()
+def make_week_AOV(es, date, store_id):
     index = 'platform_sales_per_price'
     body = {
         "size": 10000,
@@ -66,7 +58,7 @@ def make_week_AOV(date, store_id):
     return df
 
 
-def Week_AOV(start_date, end_date):
+def Week_AOV(es, start_date, end_date):
     start_year = start_date.year
     start_month = start_date.month
     start_day = start_date.day
@@ -75,7 +67,6 @@ def Week_AOV(start_date, end_date):
     end_month = end_date.month
     end_day = end_date.day
 
-    es = conn.Conn()
 
     index = 'platform_sales_per_price'
     body = {
@@ -115,15 +106,9 @@ def Week_AOV(start_date, end_date):
                 store_id.append(value)
 
         for value in store_id:
-            df = make_week_AOV(current_date, value)
+            df = make_week_AOV(es, current_date, value)
             result_df = pd.concat([result_df, df])
 
         current_date += timedelta(days=1)
 
     return result_df
-
-
-#start_date = date(2021, 12, 14)
-#end_date = date(2021, 12, 20)
-#temp = Week_AOV(start_date, end_date)
-

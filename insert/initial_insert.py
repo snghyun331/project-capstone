@@ -9,9 +9,9 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import elastic.conn as conn
 import search.get_date as getdate
 
-def insert_sale(es, connection, start_date, end_date):
+def insert_sale(es, db, start_date, end_date):
     try: 
-        with connection.cursor() as cursor:
+        with db.cursor() as cursor:
             sql = f"SELECT  * FROM platform_sales WHERE sold_at >= {start_date} and sold_at <= {end_date} "
             sql = "SELECT  * FROM platform_sales"
 
@@ -19,7 +19,6 @@ def insert_sale(es, connection, start_date, end_date):
 
             #send buffer
             data_row = []
-            fraud_data = []
 
             # when data count 100, send to elastic
             for row in cursor: 
@@ -71,31 +70,24 @@ def insert_sale(es, connection, start_date, end_date):
             helpers.bulk(es, fraud_data)
 
     finally:
-        connection.close()
+        db.close()
 
 
-#execute start 
-es = conn.Conn()
-
-connection = pymysql.connect(
-    host = 'localhost',
-    port = 3306,
-    user = 'root',
-    password = '12345',
-    db = '_earlypay',
-    charset ='utf8mb4',
-    cursorclass = pymysql.cursors.DictCursor
-)
+#execute start
+# initialize 
+con = conn.Conn()
+es = con.es
+db = con.db
 
 
-
+#set date
 max_day_sql = "SELECT DATE_FORMAT(MAX(sold_at), '%Y%m%d') as max_day FROM platform_sales"
 min_day_sql = "SELECT DATE_FORMAT(MIN(sold_at), '%Y%m%d') as min_day FROM platform_sales"
 max_day = ()
 min_day = ()
 
 try:
-    with connection.cursor() as cursor:
+    with db.cursor() as cursor:
         cursor.execute(max_day_sql)
         max_day = cursor.fetchall()
         cursor.execute(min_day_sql)
@@ -120,7 +112,7 @@ start = getdate.format_date(start_year, start_month, start_day, 0, 0, 0)
 end = getdate.format_date(end_year, end_month, end_day, 23, 59, 59)
 
 #main execute
-insert_sale(es, connection, start, end)
+insert_sale(es, db, start, end)
 
 #end
 print("from database, transport data to elasticsearch successful")

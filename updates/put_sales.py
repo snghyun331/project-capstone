@@ -1,6 +1,5 @@
 import os
 import sys 
-import pymysql.cursors
 from dateutil import parser
 from elasticsearch import helpers
 
@@ -8,10 +7,11 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 import elastic.conn as conn
 import search.get_date as getdate
+import elastic.aov_compare as cmp
 
-def insert_sale(es, connection, start_date, end_date):
+def check_insert_sale(es, db, start_date, end_date):
     try: 
-        with connection.cursor() as cursor:
+        with db.cursor() as cursor:
             sql = f"SELECT  * FROM platform_sales WHERE sold_at >= {start_date} and sold_at <= {end_date} "
             sql = "SELECT  * FROM platform_sales"
 
@@ -54,6 +54,8 @@ def insert_sale(es, connection, start_date, end_date):
             #append sale data
             data_row.append(data)
 
+            if not cmp.compare(row["card_number"], row["amount_sale"], row["store_id"], row["sold_at"], row["sold_at"])
+
             #send sale data to server
             if len(data_row) >= 100: 
                 try:
@@ -71,31 +73,22 @@ def insert_sale(es, connection, start_date, end_date):
             helpers.bulk(es, fraud_data)
 
     finally:
-        connection.close()
+        db.close()
 
 
-#execute start 
-es = conn.Conn()
-
-connection = pymysql.connect(
-    host = 'localhost',
-    port = 3306,
-    user = 'root',
-    password = '12345',
-    db = '_earlypay',
-    charset ='utf8mb4',
-    cursorclass = pymysql.cursors.DictCursor
-)
-
-
-exe_time = getdate.get_cycle_term()
+#execute start
+# initialize 
+con = conn.Conn()
+es = con.es
+db = con.db
 
 #set date
+exe_time = getdate.get_cycle_term()
 start = exe_time[0]
 end = exe_time[1]
 
 #main execute
-insert_sale(es, connection, start, end)
+check_insert_sale(es, db, start, end)
 
 #end
 print("successful insert cycle end")

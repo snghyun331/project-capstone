@@ -40,11 +40,12 @@ def insert_aov(es, aov_df):
 
 
 #start 
-es = conn.Conn()
+con = conn.Conn()
+es = con.es
 
 #in elasticseartch data, select all days
 yesterday = getdate.set_yesterday()
 
 #by all days, Calculate aov data and put into index (sales_per_prices)
-aov_df = aov.AOV(yesterday, yesterday)
+aov_df = aov.AOV(es, yesterday, yesterday)
 insert_aov(es, aov_df)

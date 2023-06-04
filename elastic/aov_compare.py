@@ -56,11 +56,16 @@ def compare(card_number, amount_sale, store_id, start_date, end_date):
     
     # platform_sales에서 amount_sale값 가져오기
     res2_hits = res2["hits"]["hits"] 
-    info = [] # 비교하는 데이터의 card_number가 같은 amount_sale값의 리스트
+
+    # 비교하는 데이터의 card_number가 같은 amount_sale값의 리스트
+    info = [] 
+    
     for arr in res2_hits:
         res2_source = dict(arr)
-        current_card_number = res2_source["_source"]["card_number"] # 현재 es에 저장된 데이터의 card_number들
-        if card_number == current_card_number: # 비교하는 데이터와 카드 번호가 같을 경우 리스트에 추가
+        # 현재 es에 저장된 데이터의 card_number들
+        current_card_number = res2_source["_source"]["card_number"] 
+        # 비교하는 데이터와 카드 번호가 같을 경우 리스트에 추가
+        if card_number == current_card_number: 
             info.append(res2_source["_source"]["amount_sale"])
       
     # 가장 최근의 3개의 amount_sale의 값이 모두 같은 값이면 변수 outlier는 true
@@ -76,7 +81,7 @@ def compare(card_number, amount_sale, store_id, start_date, end_date):
             break
   
     
-    if week_unit_price*2 < amount_sale or outlier == True:
+    if week_unit_price*2 < amount_sale and outlier == True:
         return True
     else:
         return False
