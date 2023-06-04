@@ -66,8 +66,6 @@ def insert_sale(es, db, start_date, end_date):
         #send rest data
         if data_row: 
             helpers.bulk(es, data_row)
-        if fraud_data: 
-            helpers.bulk(es, fraud_data)
 
     finally:
         db.close()

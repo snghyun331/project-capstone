@@ -54,8 +54,19 @@ def check_insert_sale(es, db, start_date, end_date):
             #append sale data
             data_row.append(data)
 
-            if not cmp.compare(row["card_number"], row["amount_sale"], row["store_id"], row["sold_at"], row["sold_at"])
-
+            #append fraud data
+            if not cmp.compare(es, row["card_number"], row["amount_sale"], row["store_id"], row["sold_at"]):
+                fraud_data.append(data)
+            
+            #send sale data to server
+            if len(fraud_data) >= 100: 
+                try:
+                    helpers.bulk(es, fraud_data)
+                except helpers.BulkIndexError as e:
+                    for error in e.errors:
+                        print(error)
+                fraud_data = []
+            
             #send sale data to server
             if len(data_row) >= 100: 
                 try:
