@@ -48,6 +48,9 @@ es = con.es
 days = getdate.get_all_date()
 
 #by all days, Calculate aov data and put into index (sales_per_prices)
-for day in days:
+for str_day in days:
+    print(f"calculate date is {str_day}")
+    day = getdate.format_date(str_day[:4], str_day[5:7], str_day[8:10], 0, 0, 0)
     aov_df = week_aov.Week_AOV(es, day, day)
-    insert_weekly_aov(es, aov_df)
+    print(f"aov - df = {aov_df}")
+    #insert_weekly_aov(es, aov_df)

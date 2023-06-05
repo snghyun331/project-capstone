@@ -35,8 +35,9 @@ def get_cycle_term():
 
 def get_all_date():
     
-    es = conn.Conn()
-
+    con = conn.Conn()
+    es = con.es
+    
     res = es.search(index = 'platform_sales',scroll = '1m', size = 10000, body={"query": {"match_all": {}}})
     res_hits = res['hits']['hits']
     scroll_id = res['_scroll_id']
