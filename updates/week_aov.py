@@ -59,6 +59,9 @@ def make_week_AOV(es, date, store_id):
 
 
 def Week_AOV(es, start_date, end_date):
+    start_date = start_date.date()
+    end_date = end_date.date()
+    
     start_year = start_date.year
     start_month = start_date.month
     start_day = start_date.day
