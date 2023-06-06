@@ -16,10 +16,9 @@ def insert_weekly_aov(es, aov_df):
             "_index" : "platform_sales_week_per_price",
             "_source" : {
                 "store_id": row.store_id,
-                "total_sale": row.total_sale,
-                "num_customer": row.num_customer,
-                "unit_price": row.unit_price,
-                "date" : row.date
+                "week_unit_price" : row.week_unit_price,
+                "start_date" : row.start_date,
+                "end_date" : row.end_date
             }
         }
 
@@ -46,7 +45,8 @@ con = conn.Conn()
 es = con.es
 
 #in elasticseartch data, select all days
-yesterday = getdate.set_yesterday()
+#yesterday = getdate.set_yesterday()
+yesterday =  getdate.format_date(2022, 5, 31, 0, 0, 0)
 
 #by all days, Calculate aov data and put into index (sales_per_prices)
 aov_df = week_aov.Week_AOV(es, yesterday, yesterday)

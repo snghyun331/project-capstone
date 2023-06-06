@@ -104,7 +104,7 @@ db = con.db
 #start = exe_time[0]
 #end = exe_time[1]
 
-end = getdate.format_date(2022, 5, 31, 12, 0, 0)
+end = getdate.format_date(2022, 6, 1, 0, 0, 0)
 start = end - timedelta(hours=6)
 
 print(f"start = {start}, end = {end}")
