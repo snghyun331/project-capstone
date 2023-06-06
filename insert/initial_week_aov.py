@@ -16,10 +16,9 @@ def insert_weekly_aov(es, aov_df):
             "_index" : "platform_sales_week_per_price",
             "_source" : {
                 "store_id": row.store_id,
-                "total_sale": row.total_sale,
-                "num_customer": row.num_customer,
-                "unit_price": row.unit_price,
-                "date" : row.date
+                "week_unit_price" : row.week_unit_price,
+                "start_date" : row.start_date,
+                "end_date" : row.end_date
             }
         }
 
@@ -52,5 +51,4 @@ for str_day in days:
     print(f"calculate date is {str_day}")
     day = getdate.format_date(str_day[:4], str_day[5:7], str_day[8:10], 0, 0, 0)
     aov_df = week_aov.Week_AOV(es, day, day)
-    print(f"aov - df = {aov_df}")
-    #insert_weekly_aov(es, aov_df)
+    insert_weekly_aov(es, aov_df)

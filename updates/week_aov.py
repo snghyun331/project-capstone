@@ -51,6 +51,7 @@ def make_week_AOV(es, date, store_id):
             "week_unit_price": week_aov
         }
 
+        
         df = df.append(data, ignore_index=True)
     except:
         pass
@@ -58,10 +59,10 @@ def make_week_AOV(es, date, store_id):
     return df
 
 
-def Week_AOV(es, start_date, end_date):
+def Week_AOV(es, start_date, end_date):    
     start_date = start_date.date()
     end_date = end_date.date()
-    
+
     start_year = start_date.year
     start_month = start_date.month
     start_day = start_date.day
@@ -111,7 +112,6 @@ def Week_AOV(es, start_date, end_date):
         for value in store_id:
             df = make_week_AOV(es, current_date, value)
             result_df = pd.concat([result_df, df])
-
         current_date += timedelta(days=1)
 
     return result_df
