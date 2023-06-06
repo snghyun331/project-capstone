@@ -80,7 +80,7 @@ def compare(es, card_number, amount_sale, store_id, start_date):
             break
 
     if (week_unit_price*2 < amount_sale) or outlier == True:
-            return True
+         return True
     else:
         return False
 
