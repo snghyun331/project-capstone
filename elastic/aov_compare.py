@@ -9,14 +9,14 @@ import elastic.conn as conn
 import search.get_date as getdate
 import updates.daily_aov as daily_aov
 
+def compare(es, card_number, amount_sale, store_id, sold_at):
 
-def compare(es, card_number, amount_sale, store_id, start_date):
-
-    start_date = start_date.date()
+    sold_at = parser.parse(sold_at)
+    sold_at = sold_at.date()
     
-    start_year = start_date.year
-    start_month = start_date.month
-    start_day = start_date.day
+    sold_at_year = sold_at.year
+    sold_at_month = sold_at.month
+    sold_at_day = sold_at.day
    
     
     # 주간 객단가 가져오기 
@@ -26,7 +26,7 @@ def compare(es, card_number, amount_sale, store_id, start_date):
             "bool": {
                 "must": [
                     {"match": {"store_id": store_id}},
-                    {"match": {"start_date": start_date - timedelta(days=7)}}
+                    {"match": {"start_date": sold_at - timedelta(days=7)}}
                 ]
             }
         }
@@ -42,8 +42,8 @@ def compare(es, card_number, amount_sale, store_id, start_date):
                         {"term": {"store_id": store_id}},
                         {"range": {
                             "sold_at": {
-                                "gte": parser.parse(f"{start_year}-{start_month}-{start_day}T00:00:00+00:00"),
-                                "lte": parser.parse(f"{start_year}-{start_month}-{start_day}T23:59:59+00:00")
+                                "gte": parser.parse(f"{sold_at_year}-{sold_at_month}-{sold_at_day}T00:00:00+00:00"),
+                                "lte": parser.parse(f"{sold_at_year}-{sold_at_month}-{sold_at_day}T23:59:59+00:00")
                             }
                         }}
                     ]
@@ -80,8 +80,8 @@ def compare(es, card_number, amount_sale, store_id, start_date):
             break
 
     if (week_unit_price*2 < amount_sale) or outlier == True:
-         return True
+        return True
     else:
         return False
-
-#df = compare(es, "5461-11**-****-7537", 32000, 111, parser.parse("2020-09-16T00:00:00+00:00"))
+  
+#df = compare(es, "5461-11**-****-7537", 32000, 111, "2020-09-16T00:00:00+00:00")
