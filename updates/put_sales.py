@@ -2,6 +2,7 @@ import os
 import sys 
 from dateutil import parser
 from elasticsearch import helpers
+from datetime import timedelta
 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
@@ -12,9 +13,11 @@ import elastic.aov_compare as cmp
 def check_insert_sale(es, db, start_date, end_date):
     try: 
         with db.cursor() as cursor:
-            sql = f"SELECT  * FROM platform_sales WHERE sold_at >= {start_date} and sold_at <= {end_date} "
-            sql = "SELECT  * FROM platform_sales"
+            sql = f"""SELECT  * 
+            FROM platform_sales 
+            WHERE sold_at >= '{start_date}' and sold_at <= '{end_date}' """
 
+            print("execute query")
             cursor.execute(sql)
 
             #send buffer
@@ -51,37 +54,41 @@ def check_insert_sale(es, db, start_date, end_date):
                     "processing_status": row["processing_status"]
                     }
                 }
-            #append sale data
-            data_row.append(data)
+                #append sale data
+                data_row.append(data)
 
-            #append fraud data
-            if not cmp.compare(es, row["card_number"], row["amount_sale"], row["store_id"], row["sold_at"]):
-                fraud_data.append(data)
+                #append fraud data
+                if not cmp.compare(es, row["card_number"], row["amount_sale"], row["store_id"], row["sold_at"]):
+                    print(f"detect fraud data")
+                    fraud_data.append(data)
             
-            #send sale data to server
-            if len(fraud_data) >= 100: 
-                try:
-                    helpers.bulk(es, fraud_data)
-                except helpers.BulkIndexError as e:
-                    for error in e.errors:
-                        print(error)
-                fraud_data = []
+                #send sale data to server
+                if len(fraud_data) >= 100: 
+                    fraud_data["_index"] = "platform_fraud_sales"
+                    try:
+                        helpers.bulk(es, fraud_data)
+                    except helpers.BulkIndexError as e:
+                        for error in e.errors:
+                            print(error)
+                    fraud_data = []
             
-            #send sale data to server
-            if len(data_row) >= 100: 
-                try:
-                    helpers.bulk(es, data_row)
-                except helpers.BulkIndexError as e:
-                    for error in e.errors:
-                        print(error)
-                data_row = []
+                #send sale data to server
+                if len(data_row) >= 100: 
+                    try:
+                        helpers.bulk(es, data_row)
+                    except helpers.BulkIndexError as e:
+                        for error in e.errors:
+                            print(error)
+                    data_row = []
+                print("row end")
 
 
-        #send rest data
-        if data_row: 
-            helpers.bulk(es, data_row)
-        if fraud_data: 
-            helpers.bulk(es, fraud_data)
+            #send rest data
+            if data_row: 
+                helpers.bulk(es, data_row)
+            if fraud_data: 
+                fraud_data["_index"] = "platform_fraud_sales"
+                helpers.bulk(es, fraud_data)
 
     finally:
         db.close()
@@ -94,10 +101,14 @@ es = con.es
 db = con.db
 
 #set date
-exe_time = getdate.get_cycle_term()
-start = exe_time[0]
-end = exe_time[1]
+#exe_time = getdate.get_cycle_term()
+#start = exe_time[0]
+#end = exe_time[1]
 
+end = getdate.format_date(2022, 5, 31, 6, 0, 0)
+start = end - timedelta(hours=6)
+
+print(f"start = {start}, end = {end}")
 #main execute
 check_insert_sale(es, db, start, end)
 

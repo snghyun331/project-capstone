@@ -1,13 +1,18 @@
-from datetime import datetime
+import os
+import sys
 from dateutil import parser
-from elasticsearch import Elasticsearch
 
-import conn
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
+import elastic.conn as conn
+import search.get_date as getdate
+import updates.daily_aov as daily_aov
 
 def compare(es, card_number, amount_sale, store_id, start_date):
-    start_year = start_date.year
-    start_month = start_date.month
-    start_day = start_date.day
+
+    start_year = start_date[:4]
+    start_month = start_date[5:7]
+    start_day = start_date[8:10]
    
     
     # 주간 객단가 가져오기 
@@ -17,7 +22,7 @@ def compare(es, card_number, amount_sale, store_id, start_date):
             "bool": {
                 "must": [
                     {"match": {"store_id": store_id}},
-                    {"match": {"start_date": start_date}}
+                    {"match": {"start_date": parser.parse(start_date).isoformat()}}
                 ]
             }
         }
