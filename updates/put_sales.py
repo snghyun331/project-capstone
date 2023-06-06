@@ -60,11 +60,11 @@ def check_insert_sale(es, db, start_date, end_date):
                 #append fraud data
                 if not cmp.compare(es, row["card_number"], row["amount_sale"], row["store_id"], row["sold_at"]):
                     print(f"detect fraud data")
+                    data['_index'] = "platform_fraud_sales"
                     fraud_data.append(data)
             
                 #send sale data to server
                 if len(fraud_data) >= 100: 
-                    fraud_data["_index"] = "platform_fraud_sales"
                     try:
                         helpers.bulk(es, fraud_data)
                     except helpers.BulkIndexError as e:
@@ -87,7 +87,6 @@ def check_insert_sale(es, db, start_date, end_date):
             if data_row: 
                 helpers.bulk(es, data_row)
             if fraud_data: 
-                fraud_data["_index"] = "platform_fraud_sales"
                 helpers.bulk(es, fraud_data)
 
     finally:
@@ -105,7 +104,7 @@ db = con.db
 #start = exe_time[0]
 #end = exe_time[1]
 
-end = getdate.format_date(2022, 5, 31, 6, 0, 0)
+end = getdate.format_date(2022, 5, 31, 12, 0, 0)
 start = end - timedelta(hours=6)
 
 print(f"start = {start}, end = {end}")
