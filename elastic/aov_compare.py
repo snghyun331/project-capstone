@@ -1,5 +1,6 @@
 import os
 import sys
+from datetime import timedelta
 from dateutil import parser
 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -8,11 +9,14 @@ import elastic.conn as conn
 import search.get_date as getdate
 import updates.daily_aov as daily_aov
 
+
 def compare(es, card_number, amount_sale, store_id, start_date):
 
-    start_year = start_date[:4]
-    start_month = start_date[5:7]
-    start_day = start_date[8:10]
+    start_date = start_date.date()
+    
+    start_year = start_date.year
+    start_month = start_date.month
+    start_day = start_date.day
    
     
     # 주간 객단가 가져오기 
@@ -22,7 +26,7 @@ def compare(es, card_number, amount_sale, store_id, start_date):
             "bool": {
                 "must": [
                     {"match": {"store_id": store_id}},
-                    {"match": {"start_date": parser.parse(start_date).isoformat()}}
+                    {"match": {"start_date": start_date - timedelta(days=7)}}
                 ]
             }
         }
@@ -46,15 +50,15 @@ def compare(es, card_number, amount_sale, store_id, start_date):
                 }
             }
         }
-    res2 = es.search(index = index2, body = body2, size = 10000)
+    res2 = es.search(index = index2, body = body2, size = 10000)   
     
     # pltform_sales_week_per_price에서 week_unit_price값 가져오기 
     res1_hits = res1["hits"]["hits"]
     res1_source = dict(res1_hits[0])
-    week_unit_price = res1_source["_source"]["week_unit_price"]
-    
+    week_unit_price = res1_source["_source"]["week_unit_price"]   
     
     # platform_sales에서 amount_sale값 가져오기
+
     res2_hits = res2["hits"]["hits"] 
     info = [] # 비교하는 데이터의 card_number가 같은 amount_sale값의 리스트
     for arr in res2_hits:
@@ -74,13 +78,10 @@ def compare(es, card_number, amount_sale, store_id, start_date):
         else:
             outlier = False
             break
-  
-    
+
     if (week_unit_price*2 < amount_sale) or outlier == True:
-        return True
+            return True
     else:
         return False
-    
-# df = compare("5461-11**-****-7537", 32000, 56, "20220202")
-# 예시) 카드 번호가 5461-11**-****-7537인 고객이 56번 가게에 32000원씩 3번 이상 결제해서 True가 나옴  
 
+#df = compare(es, "5461-11**-****-7537", 32000, 111, parser.parse("2020-09-16T00:00:00+00:00"))
