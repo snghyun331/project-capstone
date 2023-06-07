@@ -7,7 +7,7 @@ warnings.filterwarnings('ignore')
 # import os
 # import sys 
 # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-import elatic.conn as conn
+import elastic.conn as conn
 
 
 app = Flask(__name__)
