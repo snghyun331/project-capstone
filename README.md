@@ -18,39 +18,7 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 - Elastic search 7.17.0
 - Kibana 7.17.0
 - Flask 2.3.2
-
-## 설치 방법 
- 
-1. 저장소를 클론합니다.
-
-```
-$ git clone https://github.com/snghyun331/project-capstone.git
-```
-
-2. 프로젝트의 디렉토리로 이동합니다. 
-
-```
-$ cd project-capstone
-```
-
-3. 가상환경을 만듭니다. 
- 
-```
-$ python -m venv (가상환경 폴더명)
-```
- 
-4. 가상환경을 활성화 합니다. 
-
-```
-$ .\(가상환경 폴더명)\Scripts\activate
-```
-
-5. 필요한 패키지를 설치합니다.
-
-```
-$ pip install -r freeze.txt
-```
-
+- 
 ## Flask 배포
 
 빈칸
