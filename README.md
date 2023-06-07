@@ -9,7 +9,6 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 
 검색 엔진을 Elastic Stack을 기반으로 하여 target data 대상으로 data 분석이 가능한 infra/platform구축하여 실시간으로 수집, 저장, 분석, 시각화 자료를 제공
 
-
 ## 개발 기간 
 - 23.03.06 - 23.06.19
 
@@ -24,6 +23,10 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 빈칸
 
 ## 기능 설명 / 순서  
+### 기능 구상도 
+
+![image01](https://github.com/snghyun331/project-capstone/assets/98893114/509361ac-6183-40b1-9446-146d385c90e1)
+
 ### 주요기능 
 
 1. Data Insert : Database에 저장되어 있는 platform_sales 데이터를 elastic search index에 Insert한다.
