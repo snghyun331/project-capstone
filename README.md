@@ -18,7 +18,7 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 - Elastic search 7.17.0
 - Kibana 7.17.0
 - Flask 2.3.2
-- 
+
 ## Flask 배포
 
 빈칸
