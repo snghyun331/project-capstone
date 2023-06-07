@@ -24,7 +24,7 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 1. 저장소를 클론합니다.
 
 ```
-$ git crone -b folder_cleaned https://github.com/snghyun331/project-capstone.git
+$ git cone -b folder_cleaned https://github.com/snghyun331/project-capstone.git
 ```
 
 2. 프로젝트의 디렉토리로 이동합니다. 
