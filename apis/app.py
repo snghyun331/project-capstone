@@ -1,15 +1,21 @@
 from flask import Flask, jsonify, request
-from elasticsearch import helpers
+from elasticsearch import helpers, Elasticsearch
 from dateutil import parser
 from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
-# import os
-# import sys 
-# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-import elastic.conn as conn
 
 
+class Conn:
+    def __init__(self):
+        self.es = Elasticsearch(
+            hosts='https://118.67.134.52:9200',
+            http_auth=("elastic", "elastic"),
+            verify_certs= False,
+            http_compress= False
+        )
+
+conn = Conn()
 app = Flask(__name__)
 
 
