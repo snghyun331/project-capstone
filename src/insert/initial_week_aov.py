@@ -23,7 +23,6 @@ def insert_weekly_aov(es, aov_df):
         }
 
         data_row.append(data)
-
         if len(data_row) >= 100: 
             try:
                 helpers.bulk(es, data_row)
@@ -39,7 +38,6 @@ def insert_weekly_aov(es, aov_df):
 
 
 #start 
-
 con = conn.Conn()
 es = con.es
 

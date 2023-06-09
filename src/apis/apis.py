@@ -1,30 +1,29 @@
-from flask import Flask, jsonify, request
-from elasticsearch import helpers
+from flask import Blueprint, jsonify, request
+from elasticsearch import Elasticsearch
 from dateutil import parser
-from datetime import datetime
-import warnings
-warnings.filterwarnings('ignore')
-# import os
-# import sys 
-# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-import elastic.conn as conn
+
+class Conn:
+    def __init__(self):
+        self.es = Elasticsearch(
+            hosts='https://118.67.134.52:9200',
+            http_auth=("elastic", "elastic"),
+            verify_certs= False,
+            http_compress= False
+        )
+
+conn = Conn()
+elastic_api = Blueprint("elastic_api", __name__)
 
 
-app = Flask(__name__)
-
-
-@app.route('/')
+@elastic_api.route('/')
 def home():
     return "엘라스틱 서치를 플라스크로 성능 향상 시키기"
 
-
 # request parameter에서 start_date, end_date 값을 받아서 해당 범위의 객단가 정보 가져오기
-@app.route('/search-unitprice', methods = ['GET'])
+@elastic_api.route('/search-unitprice', methods = ['GET'])
 def search():
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
-    # url 예시: http://localhost:5000/search?start_date=20230501&end_date=20230531
-    
     start_year = start_date[:4]
     start_month = start_date[4:6]
     start_day = start_date[6:]
@@ -79,9 +78,8 @@ def search():
 #             ]
 
 
-
 # 일주일 평균 객단가를 가져오기
-@app.route('/search-weekaov')
+@elastic_api.route('/search-weekaov')
 def Week_AOV(): 
     es = conn.Conn()
     
@@ -101,8 +99,3 @@ def Week_AOV():
     <h4>end_date: {end_date}</h4>
     <h4>week_unit_price: {week_unit_price}</h4>
     """
-
-
-if __name__ == '__main__':
-    app.run(debug=False)
-    
