@@ -25,7 +25,7 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 ## 기능 설명 / 순서  
 ### 기능 구상도 
 
-![image01](https://github.com/snghyun331/project-capstone/assets/98893114/509361ac-6183-40b1-9446-146d385c90e1)
+![KakaoTalk_20230609_233221354](https://github.com/snghyun331/project-capstone/assets/108854903/5be55558-a4a1-4c74-8fdf-648ebb34d17a)
 
 ### 주요기능 
 
