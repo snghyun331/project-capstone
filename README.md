@@ -34,6 +34,8 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 3. Data analysis : 이상 거래 탐지로 채권 운용의 리스크를 줄이기 위해서 platform_sales 데이터를 분석함
 4. Data Visualization : 검색된 자료들을 kibana 프로그램을 사용하여 사용자가 시각적으로 자료를 분석할 수 있도록 시각 자료를 생성해 출력함
 
+![image](https://github.com/snghyun331/project-capstone/assets/108854903/eaa81eb2-da9c-4673-b8f8-f2fe11280f96)
+
 
 ### 순서 
 
