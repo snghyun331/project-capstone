@@ -60,3 +60,29 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 7. Kibana로 객단가 데이터 시각화 
 
 
+### 프로젝트 산출물
+**MySQL 운영 DB의 특정 데이터를 6시간마다 엘라스틱 서치에 동기화 (Crontab 이용, 외부에서 실행)**
+![Untitled](https://github.com/snghyun331/project-capstone/assets/108854903/45d77614-b05a-4895-a020-944e139b11ee)
+
+**최신화 데이터에 대한 일일 객단가를 자정마다 계산 및 동기화(서버에서 실행)**
+![Untitled](https://github.com/snghyun331/project-capstone/assets/108854903/75210a9a-4441-47ce-928d-c63ffff70576)
+
+**최신화 데이터로 계산한 일일 객단가를 활용하여, 자정마다 주간 객단가를 계산한 후 동기화 (서버에서 실행)**
+![Untitled2](https://github.com/snghyun331/project-capstone/assets/108854903/2a4fc683-6760-4ddf-9f2e-a0b50910cd31)
+
+**정상거래 정보에 대한 시각화 대시보드 생성**
+![Untitled](https://github.com/snghyun331/project-capstone/assets/108854903/59538962-b0f8-469f-96d5-40c801cb9c40)
+
+**이상거래 정보에 대한 시각화 대시보드 생성**
+![Untitled](https://github.com/snghyun331/project-capstone/assets/108854903/0eaac6c0-4a59-4a9d-acc1-538281e9bdaa)
+
+**flask를 이용해 엘라스틱 서치 데이터 조회(store_id가 50인 가게의 주객단가 정보 출력)**
+![Untitled](https://github.com/snghyun331/project-capstone/assets/108854903/b2da6d6d-1472-4df4-9bd6-50ea9dbfbd10)
+
+**flask를 이용해 엘라스틱 서치 데이터 조회(date가 2021-12-21인 모든 가게의 일일 객단가 정보 출력)**
+![Untitled](https://github.com/snghyun331/project-capstone/assets/108854903/8b1c9fe8-eab6-484b-9d1c-0c23972cbf1b)
+
+
+
+
+
