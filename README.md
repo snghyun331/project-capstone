@@ -18,10 +18,6 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 - Kibana 7.17.0
 - Flask 2.3.2
 
-## Flask 배포
-
-빈칸
-
 ## 기능 설명 / 순서  
 ### 기능 구상도 
 
