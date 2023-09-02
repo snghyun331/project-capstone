@@ -25,12 +25,12 @@ Elastic Stack을 기반으로 platform_sales 데이터를 이용해서 구축한
 
 ### 주요기능 
 
-1. Data Insert : Database에 저장되어 있는 platform_sales 데이터를 elastic search index에 Insert한다.
-2. Data Searching : elastic search의 특성으로 indexing을 통하여 정리해 놓은 data들을 Flask API를 통해 빠르게 검색하여 출력함
-3. Data analysis : 이상 거래 탐지로 채권 운용의 리스크를 줄이기 위해서 platform_sales 데이터를 분석함
-4. Data Visualization : 검색된 자료들을 kibana 프로그램을 사용하여 사용자가 시각적으로 자료를 분석할 수 있도록 시각 자료를 생성해 출력함
+1. **Data Insert** : Database에 저장되어 있는 platform_sales 데이터를 elastic search index에 Insert한다.
+2. **Data Searching** : elastic search의 특성으로 indexing을 통하여 정리해 놓은 data들을 Flask API를 통해 빠르게 검색하여 출력함
+3. **Data analysis** : 이상 거래 탐지로 채권 운용의 리스크를 줄이기 위해서 platform_sales 데이터를 분석함
+4. **Data Visualization** : 검색된 자료들을 kibana 프로그램을 사용하여 사용자가 시각적으로 자료를 분석할 수 있도록 시각 자료를 생성해 출력함
 
-![image](https://github.com/snghyun331/project-capstone/assets/108854903/eaa81eb2-da9c-4673-b8f8-f2fe11280f96)
+<img src="https://github.com/snghyun331/elice-damchae/assets/108854903/8aa7039a-14b0-47ae-852f-c39c9aa724bc" height="70%" width="70%">
 
 
 ### 순서 
